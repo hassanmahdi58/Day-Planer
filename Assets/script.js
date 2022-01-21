@@ -1,29 +1,62 @@
-var date = moment().format("MMM Do YY");
-$("#currentDay").append(date);
+ var saveBtn = $(".saveBtn");
 
-var timeOfday = ["07", "11", "14", "16", "17", "19", "20", "22", "23"]
-updatetime();
-
-function updatetime() {
-    var currenTime = moment().format('H');
-    var ( var 1 = 0; i < timeOfday.length; i++) {
-
-        if (parseInt(timeOfday[i]) > currenTime) {
-            $("#" + timeOfday[i]).attr("style", "background-color: #58ce7b");
-        }
-        else if (parseInt(timeOfday[i]) < currenTime) {
-            $("#" + timeOfday[i]).attr("style", "background-color: #58ce7b");
-        }
-        else if (parseInt(timeOfday[i]) == currenTime) {
-            $("#" + timeOfday[i]).attr("style", "background-color: #58ce7b");
-        }
-    }
-}
-
-$(".rowBtn").on("click", function() {
-    var timeOfday = $(this).parent().attr("class");
-    var textContent = $("input").val().trim();
-
-    localStorage.setItem(timeOfday, textContent);
-    console.log(timeOfday, textContent);
-})
+ 
+ $("#currentDay").text(moment().format('dddd MMMM Do YYYY'));
+ 
+ 
+ function timeBlockColor() {
+     var hour = moment().hours();
+ 
+     $(".time-block").each(function() {
+         var currHour = parseInt($(this).attr("id"));
+ 
+         // console.log(this); //each time-block
+ 
+         if (currHour > hour) {
+             $(this).addClass("future");
+         } else if (currHour === hour) {
+             $(this).addClass("present");
+         } else {
+             $(this).addClass("past");
+         }
+     })
+ };
+ 
+ // WHEN I click the save button for that time block
+ saveBtn.on("click", function() {
+ 
+     // console.log(this); //save button
+     var time = $(this).siblings(".hour").text();
+     var plan = $(this).siblings(".plan").val();
+ 
+     // THEN the text for that event is saved in local storage
+     localStorage.setItem(time, plan);
+ });
+ 
+ // WHEN I refresh the page
+ // THEN the saved events persist
+ function usePlanner() {
+ 
+     $(".hour").each(function() {
+         var currHour = $(this).text();
+         var currPlan = localStorage.getItem(currHour);
+ 
+         // console.log(this);
+         // console.log(currHour);
+ 
+         if(currPlan !== null) {
+             $(this).siblings(".plan").val(currPlan);
+         }
+     });
+ }
+ 
+ /**
+  * CALL FUNCTIONS
+  */
+ 
+ timeBlockColor();
+ usePlanner();
+ 
+ 
+ 
+ 
