@@ -1,6 +1,6 @@
  var saveBtn = $(".saveBtn");
 
- 
+ // this is current day format 
  $("#currentDay").text(moment().format('dddd MMMM Do YYYY'));
  
  
