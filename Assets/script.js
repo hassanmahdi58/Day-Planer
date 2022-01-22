@@ -50,10 +50,6 @@
      });
  }
  
- /**
-  * CALL FUNCTIONS
-  */
- 
  timeBlockColor();
  usePlanner();
  
